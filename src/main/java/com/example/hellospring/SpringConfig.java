@@ -1,10 +1,12 @@
 package com.example.hellospring;
 
+import com.example.hellospring.repository.JdbcTemplateMemberRepository;
 import com.example.hellospring.repository.MemberRepository;
-import com.example.hellospring.repository.MemoryMemberRepository;
 import com.example.hellospring.service.MemberService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
 
 /*
  service, repository 어노테이션 사용하는 대신 직접 config 설정해서 spring bean 설정하는 방법
@@ -13,12 +15,19 @@ import org.springframework.context.annotation.Configuration;
 */
 @Configuration
 public class SpringConfig {
+    private final DataSource dataSource;
+
+    public SpringConfig(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
     @Bean
     public MemberService memberService(){
         return new MemberService(memberRepository());
     }
     @Bean // 얘는 주석 처리해도 돌아감 왜지?
     public MemberRepository memberRepository(){
-        return new MemoryMemberRepository();
+        //return new JdbcMemberRepository(dataSource);
+        //return new MemoryMemberRepository();
+        return new JdbcTemplateMemberRepository(dataSource);
     }
 }
