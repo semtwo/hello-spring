@@ -6,15 +6,15 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
 //@Component 하거나 직접 bean 등록해야함
-@Component
+//@Component
 @Aspect
 public class TimeTraceAop {
 
-    @Around("execution(* com.example.hellospring..*(..))")
+    @Around("execution(* com.example.hellospring..*(..)) && !target(com.example.hellospring.SpringConfig)")
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable{
 
         long start = System.currentTimeMillis();
-        System.out.println("START = " + joinPoint.toLongString());
+        System.out.println("START = " + joinPoint.toString());
         try{
             return joinPoint.proceed();
         }finally {

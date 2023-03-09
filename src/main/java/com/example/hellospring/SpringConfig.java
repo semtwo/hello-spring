@@ -23,8 +23,9 @@ public class SpringConfig {
     public MemberService memberService(){
         return new MemberService(memberRepository);
     }
-//    @Bean
-//    public TimeTraceAop timeTraceAop(){
-//        return new TimeTraceAop();
-//    }
+    //AOP가 해당 메서드는 예외하도록 Around에 조건을 걸어야함
+    @Bean
+    public TimeTraceAop timeTraceAop(){
+        return new TimeTraceAop();
+    }
 }
